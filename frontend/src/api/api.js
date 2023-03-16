@@ -36,7 +36,7 @@ export function updateTodo(todo, setTodo, setTodos) {
   })
     .then(res => res.json())
     .then(res => setTodo(res))
-    .finally(() => this.getTodos().then(todos => setTodos(todos)));
+    .finally(() => getTodos().then(todos => setTodos(todos)));
 }
 
 export const dbUpdateTodo = debounce(updateTodo, 800);
@@ -47,16 +47,14 @@ export function deleteTodo(id, setTodos, navigate) {
   })
     .then(res => res.json())
     .then(res => setTodos(res))
-    .finally(() => { if (navigate) navigate('/') });
+    .finally(() => navigate && navigate('/'));
 }
 
-export function newTask(id, todo, setTodo) {
-
-  const input = document.querySelector('.new-task-input');
+export function newTask(id, todo, setTodo, input) {
   const task = { _id: '1', title: input.value, completed: false };
   input.value = '';
   todo.tasks.push(task);
-  setTodo({ ...todo })
+  setTodo({ ...todo });
   fetch(`/todos/create-task/${id}`, {
     method: 'POST',
     headers: {

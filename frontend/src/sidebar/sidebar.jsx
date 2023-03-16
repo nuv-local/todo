@@ -1,7 +1,7 @@
 import './Sidebar.css';
-import {useState} from 'react';
+import {useMemo, useState} from 'react';
 
-function Sidebar(props) {
+function Sidebar({filters, sortBy, sortByChange, filterChange}) {
   const [isOpen, setIsOpen] = useState('');
 
   const [isFiltersActive, setIsFiltersActive] = useState(false);
@@ -12,8 +12,8 @@ function Sidebar(props) {
 
   const toggleSidebar = () => setIsOpen(isOpen ? '' : 'hidden');
 
-  const filtersKeys = Object.keys(props.filters);
-  const sortByKeys = Object.keys(props.sortBy);
+  const filtersKeys = useMemo(() => Object.keys(filters), [filters]);
+  const sortByKeys = useMemo(() => Object.keys(sortBy), [sortBy]);
 
   const toggleFilters = () => setIsFiltersActive(!isFiltersActive);
   const changeFilterName = (key) => setFilterName(`: ${key}`);
@@ -27,37 +27,35 @@ function Sidebar(props) {
       <div id='options' className={isOpen}>
         <div className={`options ${isFiltersActive ? '' : 'hide'}`} onClick={toggleFilters}>
           <h1 className='title'>{`Filters${filterName}`}</h1>
-          {filtersKeys.map((key) => {
-            return (
+          {filtersKeys.map((key) => (
               <p 
               key={key} 
               onClick={(e) => {
                 e.stopPropagation();
-                props.filterChange(props.filters[key]);
+                filterChange(filters[key]);
                 changeFilterName(key);
               }}
               className={`option ${isOpen}`}>
                 {key}
               </p>
             )
-          })}
+          )}
         </div>
         <div className={`options ${isSortByActive ? '' : 'hide'}`} onClick={toggleSortBy}>
           <h1 className='title'>{`Sort by${sortByName}`}</h1>
-          {sortByKeys.map((key) => {
-            return (
+          {sortByKeys.map((key) => (
               <p 
               key={key} 
               onClick={(e) => {
                 e.stopPropagation();
-                props.sortByChange(props.sortBy[key]);
+                sortByChange(sortBy[key]);
                 changeSortByName(key);
               }}
               className={`option ${isOpen}`}>
                 {key}
               </p>
             )
-          })}
+          )}
         </div>
       </div>
     </aside>

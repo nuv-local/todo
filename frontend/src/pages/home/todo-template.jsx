@@ -5,21 +5,20 @@ import Modal from '../../modal/ModalTemplate';
 import { Link } from 'react-router-dom';
 import { deleteTodo } from '../../api/api';
 
-export default function Todo(props) {
-  const todo = props.todo;
+export default function Todo({todo, todos, setTodos, modal}) {
   const completed = completedTasks(todo);
   const empty = todo.tasks.length === 0;
 
   const success = async () => {
-    props.modal(null);
-    delete props.todos[props.todos.indexOf(todo)];
-    deleteTodo(todo._id, props.setTodos);
+    modal(null);
+    delete todos[todos.indexOf(todo)];
+    deleteTodo(todo._id, setTodos);
   };
 
   const showModal = () => {
-    props.modal(<Modal 
+    modal(<Modal 
       key='new-todo-modal'
-      close={() => props.modal(null)} 
+      close={() => modal(null)} 
       title={`Delete TODO: ${todo.title}`}
       onSuccess={success}
       successMessage='Confirm'

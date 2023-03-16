@@ -1,13 +1,14 @@
 import './searchbox.css'
 import { useCallback, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { getTodos } from '../../../api/api';
 
 function Searchbox() {
   const [showMenu, setShowMenu] = useState('none');
   const [todos, setTodos] = useState([]);
   const [results, setResults] = useState([]);
-  
+  const navigate = Navigate()
+
   const fetchData = useCallback(async () => setTodos(await getTodos()), []);
 
   useEffect(() => {
@@ -19,6 +20,9 @@ function Searchbox() {
 
   const search = e => {
     setResults(getResults(e.target.value.toLowerCase().trim(), todos).splice(0));
+    if (e.key === 'Enter' && results[0]) {
+      navigate(`/edit?${results[0]._id}`);
+    }
   };
 
   return (
@@ -31,12 +35,6 @@ function Searchbox() {
           onFocus={display}
           onBlur={hide}
           onKeyUp={search}
-          onKeyDown={e => {
-            if (e.key === 'Enter') {
-              console.log(e)
-              console.log('enter')
-            }
-          }}
         />
         <div
           className="dropdown-menu"

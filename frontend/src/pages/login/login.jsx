@@ -30,7 +30,7 @@ export default function Login() {
   if (signup) {
     return <SignUp
       submit={sendData}
-      switch={switchLogin}
+      swap={switchLogin}
       emailError={emailError}
       passwordError={passwordError}
       passConfError={passConfError}
@@ -39,7 +39,7 @@ export default function Login() {
 
   return <SignIn
     submit={sendData}
-    switch={switchLogin}
+    swap={switchLogin}
     emailError={emailError}
     passwordError={passwordError}
   />

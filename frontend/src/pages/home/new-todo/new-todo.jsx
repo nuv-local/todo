@@ -1,25 +1,33 @@
+import { useState } from 'react';
 import { createTodo } from '../../../api/api.js';
 import Modal from '../../../modal/ModalTemplate.jsx';
 import './new-todo.css'
 
-function NewTodoButton(props) {
+function NewTodoButton({ modal, todos, setTodos }) {
+  const [title, setTitle] = useState('');
+
   const success = async () => {
-    props.modal(null);
-    const title = document.querySelector('.modal-input').value;
-    props.todos.push({ _id: false, title, tasks: [] });
-    createTodo(title, props.setTodos);
+    modal(null);;
+    todos.push({ _id: false, title, tasks: [] });
+    createTodo(title, setTodos);
   };
 
   const showModal = () => {
-    props.modal(<Modal 
+    modal(<Modal
       key='new-todo-modal'
-      close={() => props.modal(null)} 
+      close={() => modal(null)}
       title='New TODO'
       onSuccess={success}
       successMessage='Create TODO'
       Content={
-        <input autoFocus placeholder="TODO's name..." type='text' className='modal-input'/>
+        <input
+          autoFocus
+          placeholder="TODO's name..."
+          type='text'
+          className='modal-input'
+          onChange={(e) => setTitle(e.target.value)} />
       }
+
     />);
   }
 
