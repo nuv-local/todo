@@ -6,18 +6,18 @@ import Layout from './pages/layout/layout';
 import Edit from './pages/edit/edit';
 import Login from './pages/login/login';
 import { useCookie } from './useHooks';
-import api from './api/api';
+import { getTodos } from './api/api';
 
 function App() {
   const { token, name, loading } = useCookie();
   const [todos, setTodos] = useState([]);
 
   useEffect(() => {
-    if (token) api.getTodos().then((todos) => setTodos(todos));
+    if (token) getTodos().then((todos) => setTodos(todos));
   }, [token]);
   
   if (loading) return;
-  if (!token) return <Login />;
+  // if (!token) return <Login />;
   return (
     <BrowserRouter>
       <Routes>

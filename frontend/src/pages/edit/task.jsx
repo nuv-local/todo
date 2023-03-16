@@ -1,33 +1,33 @@
-import React from "react";
-
-import debounce from 'lodash.debounce';
-import api from "../../api/api";
+import React, { useRef } from "react";
 
 import './edit.css';
+import { dbUpdateTodo } from "../../api/api";
 
 export default function Task({
-  id, task, todo, setTodo, setTodos
+  task, todo, setTodo, setTodos
 }){
+  const inputRef = useRef(null);
+  
   return (
-    <div key={task._id} className='todo-task' onClick={e => {
-      const input = e.target.firstChild;
-      if(input) input.click()
+    <div key={task._id} className='todo-task' onClick={() => {
+      if(inputRef.current) inputRef.click();
     }}>
       <input 
+        ref={inputRef}
         type='checkbox' 
         className="checkbox"  
         defaultChecked={task.completed}
         onClick={e => e.stopPropagation()}
-        onChange={ e => {
+        onChange={() => {
           task.completed = !task.completed;
-          debounce(api.updateTodo(todo, setTodo, setTodos), 800);
+          dbUpdateTodo(todo, setTodo, setTodos);
         }}
       />
       <p>{task.title}</p>
       <div className='task-options' onClick={ e => {
           e.stopPropagation();
           todo.tasks = todo.tasks.filter(currTask => currTask._id !== task._id);
-          debounce(api.updateTodo(todo, setTodo, setTodos), 800);
+          dbUpdateTodo(todo, setTodo, setTodos);
         }}>
         <p>...</p>
       </div>

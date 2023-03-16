@@ -1,9 +1,9 @@
 import React from 'react';
 
 import './todo-template.css';
-import Modal from '../../modal/modal-template';
-import api from '../../api/api';
+import Modal from '../../modal/ModalTemplate';
 import { Link } from 'react-router-dom';
+import { deleteTodo } from '../../api/api';
 
 export default function Todo(props) {
   const todo = props.todo;
@@ -13,7 +13,7 @@ export default function Todo(props) {
   const success = async () => {
     props.modal(null);
     delete props.todos[props.todos.indexOf(todo)];
-    api.deleteTodo(todo._id, props.setTodos);
+    deleteTodo(todo._id, props.setTodos);
   };
 
   const showModal = () => {

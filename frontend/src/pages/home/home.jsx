@@ -4,7 +4,7 @@ import { useState } from "react";
 import Sidebar from "../../sidebar/sidebar";
 import filters from "../../sidebar/filters";
 import sortBys from "../../sidebar/sortBy";
-import NewTodoButton from "./new-todo/new-todo";
+import NewTodoButton from "./new-todo/New-todo";
 import Todo from "./todo-template";
 
 import './home.css'
@@ -34,15 +34,15 @@ export default function Home(props) {
           <h1>My TODOs</h1>
         </header>
         <div id="grid">
-          {props.todos?.filter(filter).sort(sortBy).map((todo) => {
-            return <Todo 
+          {props.todos?.filter(filter).sort(sortBy).map((todo) => (
+            <Todo 
               todo={todo}
               todos={props.todos}
               setTodos={props.setTodos}
               modal={setModal}
               key={todo._id}
             />
-          })}
+          ))}
         </div>
       </div>
     </>

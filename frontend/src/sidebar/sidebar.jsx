@@ -1,4 +1,4 @@
-import './sidebar.css';
+import './Sidebar.css';
 import {useState} from 'react';
 
 function Sidebar(props) {

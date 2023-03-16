@@ -9,47 +9,38 @@ export default function Login() {
   const [passwordError, setPasswordError] = useState('');
   const [passConfError, setPassConfError] = useState('');
 
-  const fetchUrl = () => signup ? '/signup' : '/signin';
-
   const sendData = async (e) => {
     e.preventDefault();
-    const { errors } = await fetch(fetchUrl(), {
+    const url = signup ? '/signup' : '/signin';
+    const { errors } = await fetch(url, {
       method: 'POST',
       body: new URLSearchParams(new FormData(e.target))
     })
-    .then((res) => {
-      return res.json()
-    })
+      .then((res) => res.json());
 
-    setEmailError('');
-    setPasswordError('');
-    setPassConfError('');
-    if (errors) {
-      if(errors.email) setEmailError(errors.email);
-      if(errors.password) setPasswordError(errors.password);
-      if(errors.passwordConfirmation) setPassConfError(errors.passwordConfirmation);
-      return
-    };
+    setEmailError(errors?.email | '');
+    setPasswordError(errors?.password | '');
+    setPassConfError(errors?.passwordConfirmation | '');
 
-    window.location.reload();
-  }
+    if (!errors) window.location.reload();
+  };
 
   const switchLogin = () => setSignup(!signup)
 
   if (signup) {
-    return <SignUp 
+    return <SignUp
       submit={sendData}
       switch={switchLogin}
       emailError={emailError}
       passwordError={passwordError}
       passConfError={passConfError}
     />
-  }
+  };
 
-  return <SignIn 
-      submit={sendData}
-      switch={switchLogin}
-      emailError={emailError}
-      passwordError={passwordError}
-    />
+  return <SignIn
+    submit={sendData}
+    switch={switchLogin}
+    emailError={emailError}
+    passwordError={passwordError}
+  />
 }

@@ -1,27 +1,21 @@
 import './searchbox.css'
-import { useEffect, useState } from 'react';
-import api from '../../../api/api';
+import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { getTodos } from '../../../api/api';
 
 function Searchbox() {
   const [showMenu, setShowMenu] = useState('none');
   const [todos, setTodos] = useState([]);
   const [results, setResults] = useState([]);
-
-  const fetchData = async () => {
-    const todos = await api.getTodos();
-    setTodos(todos);
-  };
+  
+  const fetchData = useCallback(async () => setTodos(await getTodos()), []);
 
   useEffect(() => {
-    fetchData()
-  }, []);
-
-  const display = () => {
     fetchData();
-    setShowMenu('flex')
-  };
-  const hide = () => setShowMenu('none');
+  }, [fetchData, showMenu]);
+
+  const display = useCallback(() => setShowMenu('flex'), []);
+  const hide = useCallback(() => setShowMenu('none'), []);
 
   const search = e => {
     setResults(getResults(e.target.value.toLowerCase().trim(), todos).splice(0));
@@ -31,8 +25,8 @@ function Searchbox() {
     <div className="search-box">
       <i className="fa-solid fa-magnifying-glass"></i>
       <div className="dropdown">
-        <input 
-          type="text" 
+        <input
+          type="text"
           placeholder="Search..."
           onFocus={display}
           onBlur={hide}
@@ -44,33 +38,33 @@ function Searchbox() {
             }
           }}
         />
-        <div 
+        <div
           className="dropdown-menu"
-          style={{display: showMenu}}
+          style={{ display: showMenu }}
         >
           {results.map((result) => {
             return (
               <Link
                 to={`/edit?${result._id}`}
                 key={result._id}
-                className='row' 
+                className='row'
               >
-              {result.title}
+                {result.title}
               </Link>
             )
           })}
         </div>
       </div>
-    </div>  
+    </div>
   )
 }
 
-function getResults(value, todos){
+function getResults(value, todos) {
   const results = [];
-  if(value === "") return [];
+  if (value === "") return [];
 
-  for(let { title, _id } of todos){
-    if(title.toLowerCase().indexOf(value) === -1){
+  for (let { title, _id } of todos) {
+    if (title.toLowerCase().indexOf(value) === -1) {
       continue;
     }
     results.push({ title, _id });

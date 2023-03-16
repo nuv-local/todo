@@ -1,5 +1,5 @@
-import api from '../../../api/api.js';
-import Modal from '../../../modal/modal-template.jsx';
+import { createTodo } from '../../../api/api.js';
+import Modal from '../../../modal/ModalTemplate.jsx';
 import './new-todo.css'
 
 function NewTodoButton(props) {
@@ -7,7 +7,7 @@ function NewTodoButton(props) {
     props.modal(null);
     const title = document.querySelector('.modal-input').value;
     props.todos.push({ _id: false, title, tasks: [] });
-    api.createTodo(title, props.setTodos);
+    createTodo(title, props.setTodos);
   };
 
   const showModal = () => {
