@@ -5,7 +5,7 @@ import Searchbox from './searchbox/Searchbox';
 import './layout.css'
 
 
-export default function Layout(props) {
+export default function Layout({name}) {
   const clearToken = () => {
     fetch('/signout')
     .then(() => window.location.reload());
@@ -16,7 +16,7 @@ export default function Layout(props) {
       <header id="top-bar">
         <Link to='/' draggable='false'><h1>TODOapp</h1></Link>
         <div className='user' onClick={clearToken}>
-          <p>{props.name}</p>
+          <p>{name}</p>
         </div>
       </header>
       <Searchbox key='searchbox'/>

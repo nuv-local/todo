@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import './modal.css';
 
-function Modal(props) {
+function Modal({hidden, close, onSuccess, Content, successMessage, title}) {
   const [opacity, setOpacity] = useState(0);
 
   useEffect(() => {
@@ -14,29 +14,29 @@ function Modal(props) {
   };
 
   return (
-    <div className='modal' hidden={props.hidden} onClick={props.close}>
+    <dialog className='modal' hidden={hidden} onClick={close}>
       <div 
         className='modal-body' 
         style={{ opacity }} 
         onClick={e => e.stopPropagation()}
         onKeyUp={e => {
-          if(e.key === 'Enter') props.onSuccess()
+          if(e.key === 'Enter') onSuccess()
         }}
         >
         <span className='close' onClick={() => {
           fadeOut();
           setTimeout(() => {
-            props.close()
+            close()
           }, 100)
         }}>X</span>
-        <p className='modal-title'>{props.title}</p>
-        {props.Content}
+        <p className='modal-title'>{title}</p>
+        {Content}
         <footer>
-          <button className='modal-cancel' onMouseUp={props.close}>Cancel</button>
-          <button className='modal-success' onClick={props.onSuccess}>{props.successMessage}</button>
+          <button className='modal-cancel' onMouseUp={close}>Cancel</button>
+          <button className='modal-success' onClick={onSuccess}>{successMessage}</button>
         </footer>
       </div>
-    </div>
+    </dialog>
   )
 }
 

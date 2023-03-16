@@ -9,7 +9,7 @@ import Todo from "./todo-template";
 
 import './home.css'
 
-export default function Home(props) {
+export default function Home({todos, setTodos}) {
   const [filter, setFilter] = useState(() => filters.All);
   const [sortBy, setSortBy] = useState(() => () => 0);
   const [currModal, setModal] = useState(null);
@@ -28,17 +28,17 @@ export default function Home(props) {
         sortBy={sortBys}
         sortByChange={changeSortBy}
       />
-      <NewTodoButton todos={props.todos} modal={setModal} setTodos={props.setTodos}/>
+      <NewTodoButton todos={todos} modal={setModal} setTodos={setTodos}/>
       <div key="todos" className='container'>
         <header>
           <h1>My TODOs</h1>
         </header>
         <div id="grid">
-          {props.todos?.filter(filter).sort(sortBy).map((todo) => (
+          {todos?.filter(filter).sort(sortBy).map((todo) => (
             <Todo 
               todo={todo}
-              todos={props.todos}
-              setTodos={props.setTodos}
+              todos={todos}
+              setTodos={setTodos}
               modal={setModal}
               key={todo._id}
             />

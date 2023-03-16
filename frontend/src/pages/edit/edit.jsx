@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -23,7 +23,7 @@ export default function Edit({ todos, setTodos }) {
     if (showTaskMenu) return
     setShowTaskMenu(!showTaskMenu);
     const interval = setInterval(() => {
-      window.scrollTo({ top: (document.body.scrollHeight)})
+      window.scrollTo({ top: (document.body.scrollHeight) })
     }, 1);
     setTimeout(() => {
       clearInterval(interval);
@@ -31,20 +31,22 @@ export default function Edit({ todos, setTodos }) {
     }, 300);
   }, [showTaskMenu]);
 
+  const inputRef = useRef(null);
+
   const createTask = useCallback(() => {
-    newTask(id, todo, setTodo);
+    newTask(id, todo, setTodo, inputRef);
     getTodos().then(todos => setTodos(todos));
   }, [id, todo, setTodos]);
-  
+
   const success = async () => {
     setModal(null);
     deleteTodo(id, setTodos, navigate);
   };
-  
+
   const showModal = () => {
-    setModal(<Modal 
+    setModal(<Modal
       key='new-todo-modal'
-      close={() => setModal(null)} 
+      close={() => setModal(null)}
       title={`Delete TODO: ${todo.title}`}
       onSuccess={success}
       successMessage='Confirm'
@@ -52,7 +54,7 @@ export default function Edit({ todos, setTodos }) {
     />)
   };
 
-  if(!todo) navigate('/');
+  if (!todo) navigate('/');
   return (
     <>
       <label key='modal'>
@@ -65,7 +67,7 @@ export default function Edit({ todos, setTodos }) {
         <p className='delete-todo' onClick={showModal}>x</p>
         <h1>{todo?.title}</h1>
         {todo.tasks?.map((task) => (
-          <Task 
+          <Task
             key={task._id}
             task={task}
             todo={todo}
@@ -73,18 +75,19 @@ export default function Edit({ todos, setTodos }) {
             setTodos={setTodos}
           />
         ))}
-        <div 
-          className={`new-task ${showTaskMenu ? 'menu' : ''}`} 
+        <div
+          className={`new-task ${showTaskMenu ? 'menu' : ''}`}
           onClick={toggleTaskMenu}
         >
-          <button 
-          className="new-task-submit" 
-          onClick={createTask}>+</button>
+          <button
+            className="new-task-submit"
+            onClick={createTask}>+</button>
           <p>Add task</p>
-          <input 
-            placeholder="title..." 
+          <input
+            ref={inputRef}
+            placeholder="title..."
             className="new-task-input"
-            onKeyUp={e => {if(e.key === 'Enter') createTask()}}
+            onKeyUp={e => e.key === 'Enter' && createTask()}
           />
           <button className="new-task-confirm" onClick={createTask}>Create Task</button>
           <button className="new-task-cancel" onClick={toggleTaskMenu}>Cancel</button>
