@@ -1,15 +1,11 @@
 from pymongo import MongoClient, ReturnDocument
 
 from todo.port.models import Todo, Task
-from todo.port.database import Database
+from todo.port.database import Database, ResourceNotFound, InvalidRequest
 
 import uuid
 
 from datetime import datetime
-
-from fastapi import HTTPException
-
-from starlette import status
 
 
 class Mongo(Database):
@@ -37,52 +33,57 @@ class Mongo(Database):
 
     def filtered_by(self, filter_by: str) -> list[Todo]:
         """Return list of Todos that comply with the received filter."""
+        todo_list = []
+
         if filter_by.lower() == "completed":
-            todos = list(self.collection.find({"task.completed": True}))
+            todo_list = list(self.collection.find({"task.completed": True}))
+
         elif filter_by.lower() == "uncompleted":
-            todos = list(self.collection.find({"task.completed": False}))
+            todo_list = list(self.collection.find({"task.completed": False}))
 
-        if todos:
-            return todos
+        elif filter_by not in ("completed", "uncompleted", ""):
+            raise InvalidRequest("No such filter exists.")
 
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="Todos not found."
-        )
+        if todo_list != []:
+            return todo_list
+
+        raise ResourceNotFound("Empty list obtained.")
 
     def all(self) -> list[Todo]:
         """Get and return a list of Todos in the system."""
+        todos = []
         todos = list(self.collection.find())
 
-        if todos:
+        if todos != []:
             return todos
 
-        raise HTTPException(status_code=status.HTTP_204_NO_CONTENT)
+        raise ResourceNotFound("Empty list obtained.")
 
     def get(self, id: str) -> Todo:
         """Get and return a specific Todo with the given ID."""
+        if len(id) != 36:
+            raise InvalidRequest("Invalid ID.")
+
         todo = self.collection.find_one({"id": id})
 
-        if todo:
-            return todo
+        if todo is None:
+            raise ResourceNotFound("Object not found.")
 
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="Todo not found."
-        )
+        return todo
 
-    def update(self, id: str, todo: Todo) -> Todo:
+    def update(self, id: str, todo_data: Todo) -> Todo:
         """Update and return a Todo with the given ID using the new data."""
-        new_data = todo.dict(exclude_unset=True)
+        todo = self.get(id)
+        new_data = todo_data.dict(exclude_unset=True)
 
-        if self.get(id):
-            self.collection.find_one_and_update(
-                {"id": id},
-                {"$set": new_data},
-                return_document=ReturnDocument.AFTER,
-            )
-            return todo
+        self.collection.find_one_and_update(
+            {"id": id},
+            {"$set": new_data},
+            return_document=ReturnDocument.AFTER,
+        )
+        return todo
 
     def delete(self, id: str) -> None:
         """Delete a single Todo with the given ID."""
-        if self.get(id):
-            self.collection.delete_one({"id": id})
-            HTTPException(status_code=status.HTTP_204_NO_CONTENT)
+        self.get(id)
+        self.collection.delete_one({"id": id})

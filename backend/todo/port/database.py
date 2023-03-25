@@ -21,3 +21,11 @@ class Database(Protocol):
 
     def delete(self) -> None:
         ...
+
+
+class ResourceNotFound(Exception):
+    pass
+
+
+class InvalidRequest(Exception):
+    pass
