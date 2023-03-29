@@ -1,0 +1,4 @@
+[tool.pyright]
+executionEnvironments = [
+  { root = ".", pythonVersion = "3.10.9" },
+]
