@@ -1,0 +1,110 @@
+:root {
+  --title: #909090;
+  --option: #B0B0B0;
+  --hover: #C0C0C0;
+}
+
+#sidebar {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  gap: 0;
+  background-color: #606060;
+  min-width: 380px;
+  height: 100%;
+  transition-duration: 300ms !important;
+  transition: min-width 300ms, visibility 300ms linear !important;
+}
+
+#options {
+  position: fixed;
+  margin: 10px;
+  min-width: 360px;
+  transition-duration: 200ms !important;
+  transition: min-width 300ms, visibility 100ms linear !important;
+}
+
+.options {
+  background-color: var(--option);
+  display: flex;
+  width: 100%;
+  height: auto;
+  flex-direction: column;
+  align-items:center;
+  justify-content:center;
+}
+
+.option:hover {
+  background-color: #B0B0B0;
+}
+
+.title {
+  background-color: var(--title);
+  cursor: pointer;
+  user-select: none;
+  vertical-align: middle;
+  text-align: center;
+  flex-basis: 60px;
+  margin: 0px;
+  line-height: 60px;
+  min-width: 100%;
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.option {
+  user-select: none;
+  vertical-align: middle;
+  text-align: center;
+  flex-basis: 60px;
+  margin: 0px;
+  line-height: 60px;
+  min-width: 100%;
+  font-size: 20px;
+  font-weight: 400;
+  max-height: 60px;
+  transition: max-height 100ms, visibility 50ms linear;
+}
+
+.option:hover {
+  cursor: pointer;
+  background-color: var(--hover);
+}
+
+.hidden {
+  min-width: 0 !important;
+  width: 0 !important;
+  visibility: hidden !important;
+}
+
+#burger {
+  position: fixed;
+  user-select: none;
+  color: white;
+  font-size: 40px;
+  line-height: 40px;
+  left: 16px;
+  top: 15px;
+  width: 40px;
+  z-index: 1;
+}
+
+#burger:hover {
+  cursor: pointer;
+}
+
+.hide {
+  background-color: transparent !important;
+}
+
+.hide > .title {
+  background-color: #A0A0A0;
+}
+.hide > .title:hover {
+  background-color: var(--title);
+}
+
+.hide > p {
+  max-height: 0px !important;
+  visibility: hidden;
+}

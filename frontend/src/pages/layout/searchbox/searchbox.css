@@ -1,0 +1,86 @@
+.search-box {
+  user-select: none;
+  position: fixed;
+  display: flex;
+  margin: 0%;
+  top: 15px;
+  left: 80px;
+  background-color: var(--background);
+  height: 40px;
+  border: 1px solid var(--font-color);
+  border-radius: 20px;
+  width: 300px;
+  z-index: 1;
+}
+
+.search-box i {
+  position:relative;
+  font-size: 22px;
+  color: var(--font-color);
+  aspect-ratio: 1 / 1;
+}
+
+.search-box i::before{
+  position: absolute;
+  top: 25%;
+  left: 25%;
+}
+
+.dropdown {
+  position: relative;
+  display: block;
+  width: calc(100% - 40px);
+  background-color: var(--background);
+  outline: 0px;
+  border-radius: 20px;
+}
+
+.dropdown input{
+  all: unset;
+  position: absolute;
+  height: 60%;
+  top: 20%;
+  margin: 0;
+  background-color: var(--background);
+  color: var(--font-color);
+  left: 8px;
+  width: calc(100% - 40px);
+  font-size: 20px;
+  font-weight: 400;
+  text-align: left;
+}
+
+.dropdown-menu {
+  display: flex;
+  flex-direction: column;
+  margin-top: 44px;
+  min-height: 0px;
+  background-color: var(--font-color);
+  border-radius: 10px;
+  z-index: 0;
+  max-height: 240px;
+  overflow-y: auto;
+  row-gap: 0;
+  box-shadow: 1px 1px 5px black;
+}
+
+.row {
+  user-select: none;
+  display:inline-block;
+  height: 40px;
+  width: calc(100% - 8px);
+  color: black;
+  font-size: 20px;
+  text-align: left;
+  font-weight: 400;
+  padding-left: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-top: 8px;
+}
+
+.row:hover {
+  background-color: #e9e9e9;
+  cursor: pointer;
+}
