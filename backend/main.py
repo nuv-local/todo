@@ -1,45 +1,73 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 
-from models import Todo
+from todo.port.models import Todo
+from todo.port.database import ResourceNotFound, InvalidRequest
+from todo.adapter.database.mongo import Mongo
 
 
 app = FastAPI()
+db = Mongo()
 
 
 @app.post("/todo", response_model=Todo)
-def post_todo_endpoint(todo: Todo):
+def post_todo(todo: Todo) -> Todo:
     """Create and return a Todo with the given data."""
-    todo = Todo.create_todo(
-          title=todo.title,
-        color=todo.color,
-        task=todo.task
-    )
-    return todo
+    return db.create(title=todo.title, color=todo.color, task=todo.task)
 
 
 @app.get("/todos")
-def get_list_of_todos_endpoint():
-    """Return a list of Todos in the system."""
-    todos = Todo.get_list_of_todos()
-    return todos
+def get_todos_list(filter_by: str = None) -> list[Todo]:
+    """Return a list of Todos in the system by filtering or not."""
+    try:
+        if filter_by is not None:
+            todo_list = db.filtered_by(filter_by)
+
+        elif filter_by is None:
+            todo_list = db.all()
+
+        return todo_list
+
+    except ResourceNotFound:
+        raise HTTPException(
+            status_code=204,
+            detail="The request has been completed successfully but the response has no content.",
+        )
+    except InvalidRequest:
+        raise HTTPException(status_code=400, detail="Invalid filter.")
 
 
 @app.get("/todo/{id}")
-def get_single_todo_endpoint(id:str):
+def get_todo(id: str) -> Todo:
     """Return a single todo with the given ID."""
-    todo = Todo.get_single_todo(id)
-    return todo
+    try:
+        return db.get(id)
+    except ResourceNotFound:
+        raise HTTPException(status_code=404, detail="Object not found.")
+    except InvalidRequest:
+        raise HTTPException(status_code=400, detail="Invalid ID.")
 
 
 @app.put("/todo/{id}", response_model=Todo)
-def update_todo_endpoint(id: str, todo_data:Todo):
-    """Update and return an updated Todo with the given ID using the new data."""
-    new_data = todo_data.dict(exclude_unset=True)
-    updated_todo = Todo.update_todo(id, new_data)
-    return updated_todo
+def update_todo(id: str, new_todo_data: Todo) -> Todo:
+    """
+    Update and return an updated Todo with the given ID using the new data.
+    """
+    try:
+        todo = db.update(id, new_todo_data)
+        return todo
+
+    except ResourceNotFound:
+        raise HTTPException(status_code=404, detail="Object not found.")
+    except InvalidRequest:
+        raise HTTPException(status_code=400, detail="Invalid ID.")
 
 
 @app.delete("/todo/{id}")
-def delete_single_todo_endpoint(id:str):
+def delete_todo(id: str) -> None:
     """Delete a single Todo with the given ID."""
-    Todo.delete_todo(id)
+    try:
+        db.delete(id)
+    except ResourceNotFound:
+        raise HTTPException(status_code=404, detail="Object not found.")
+    except InvalidRequest:
+        raise HTTPException(status_code=400, detail="Invalid ID.")
