@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function SignIn({submit, emailError, passwordError, swap}) {
+function SignIn({submit, emailError, passwordError, swap}) {
   return (
     <div className="login-form">
       <form method="POST" action='/signin' onSubmit={submit}>
@@ -23,3 +23,4 @@ export default function SignIn({submit, emailError, passwordError, swap}) {
     </div>
   )
 }
+export default SignIn

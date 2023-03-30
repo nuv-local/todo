@@ -2,12 +2,12 @@ import React, { useCallback, useEffect, useRef } from "react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import Modal from "../../modal/ModalTemplate.jsx";
-import Task from "./task.jsx";
-import './edit.css';
+import Task from "./Task.jsx";
+import './Edit.css';
 import { deleteTodo, getTodo, getTodos, newTask } from "../../api/api.js";
+import Modal from "../../components/ModalTemplate.jsx";
 
-export default function Edit({ todos, setTodos }) {
+function Edit({ todos, setTodos }) {
   const id = window.location.search.slice(1);
   const [todo, setTodo] = useState(todos.length ? todos.find(todo => todo._id === id) : false);
   const [showTaskMenu, setShowTaskMenu] = useState(false);
@@ -96,3 +96,4 @@ export default function Edit({ todos, setTodos }) {
     </>
   )
 }
+export default Edit

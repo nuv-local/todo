@@ -1,11 +1,11 @@
 import React from 'react';
 
-import './todo-template.css';
-import Modal from '../../modal/ModalTemplate';
+import './Todo.css';
 import { Link } from 'react-router-dom';
-import { deleteTodo } from '../../api/api';
+import Modal from './ModalTemplate';
+import { deleteTodo } from '../api/api';
 
-export default function Todo({todo, todos, setTodos, modal}) {
+function Todo({todo, todos, setTodos, modal}) {
   const completed = completedTasks(todo);
   const empty = todo.tasks.length === 0;
 
@@ -60,3 +60,5 @@ export default function Todo({todo, todos, setTodos, modal}) {
 const completedTasks = todo => {
   return todo.tasks.reduce((acc, curr) => curr.completed ? acc + 1 : acc, 0);
 };
+
+export default Todo;

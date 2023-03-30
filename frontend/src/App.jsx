@@ -1,12 +1,12 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
-import Home from './pages/home/home';
-import Layout from './pages/layout/layout';
-import Edit from './pages/edit/edit';
-import Login from './pages/login/login';
 import { useCookie } from './useHooks';
 import { getTodos } from './api/api';
+import Layout from './pages/Layout/Layout';
+import Home from './pages/Home/Home';
+import Edit from './pages/Edit/Edit';
+import Login from './pages/Login/Login';
 
 function App() {
   const { token, name, loading } = useCookie();
@@ -16,7 +16,7 @@ function App() {
     if (token) getTodos().then((todos) => setTodos(todos));
   }, [token]);
   
-  if (loading) return;
+  // if (loading) return;
   // if (!token) return <Login />;
   return (
     <BrowserRouter>

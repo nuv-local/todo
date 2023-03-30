@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import './login.css';
-import SignUp from "./signup";
-import SignIn from "./signin";
+import './Login.css';
+import SignIn from "./Signin";
+import SignUp from "./Signup";
 
-export default function Login() {
+function Login() {
   const [signup, setSignup] = useState(false);
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
@@ -44,3 +44,5 @@ export default function Login() {
     passwordError={passwordError}
   />
 }
+
+export default Login

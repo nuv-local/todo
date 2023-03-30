@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import './modal.css';
+import './ModalTemplate.css';
 
 function Modal({hidden, close, onSuccess, Content, successMessage, title}) {
   const [opacity, setOpacity] = useState(0);
@@ -14,7 +14,7 @@ function Modal({hidden, close, onSuccess, Content, successMessage, title}) {
   };
 
   return (
-    <dialog className='modal' hidden={hidden} onClick={close}>
+    <div className='modal' hidden={hidden} onClick={close}>
       <div 
         className='modal-body' 
         style={{ opacity }} 
@@ -36,7 +36,7 @@ function Modal({hidden, close, onSuccess, Content, successMessage, title}) {
           <button className='modal-success' onClick={onSuccess}>{successMessage}</button>
         </footer>
       </div>
-    </dialog>
+    </div>
   )
 }
 

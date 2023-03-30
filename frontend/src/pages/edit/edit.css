@@ -31,81 +31,6 @@
   font-weight: 400;
 }
 
-.todo-task {
-  user-select: none;
-  position: relative;
-  border: 1px solid var(--font-color);
-  width: max(calc(100% - 70px), 300px);
-  border-radius: 10px;
-  margin-top: 16px;
-  height: 64px;
-  background-color: var(--background);
-}
-
-.todo-task:hover {
-  cursor: pointer;
-  filter: drop-shadow(2px 4px 8px white);
-}
-
-.todo-task p{
-  position: absolute;
-  top: 12px;
-  left: 96px;
-  margin: 0;
-  font-size: 20px;
-  font-weight: 400;
-  max-width: calc(100% - 160px);
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.checkbox {
-  position: absolute;
-  top: calc(50% - 10px);
-  left: 18px;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  vertical-align: middle;
-  border: 1px solid white;
-  appearance: none;
-  cursor: pointer;
-  margin: 0;
-}
-
-.checkbox:checked {
-  background-color: white;
-}
-
-.task-options {
-  user-select: none;
-  position: absolute;
-  width: 40px;
-  height: 40px;
-  top: calc(50% - 20px);
-  right: 20px;
-  border-radius: 100%;
-  text-align: center;
-  z-index: 2;
-}
-
-.task-options p{
-  position: static;
-  transform: rotate(90deg);
-  height: 40px;
-  min-width: 40px;
-  right: 0;
-  margin: 0%;
-  font-size: 30px;
-  font-weight: 400;
-  line-height: 20px;
-}
-
-.task-options:hover{
-  cursor: pointer;
-  background-color: #808080;
-}
-
 .new-task {
   user-select: none;
   position: relative;
@@ -134,11 +59,11 @@
   filter: none;
 }
 
-.menu > input {
+.menu>input {
   visibility: visible !important;
 }
 
-.menu > button {
+.menu>button {
   visibility: visible !important;
 }
 
@@ -225,7 +150,8 @@
   background-color: #808080;
 }
 
-.new-task-confirm, .new-task-cancel:hover {
+.new-task-confirm,
+.new-task-cancel:hover {
   cursor: pointer;
 }
 

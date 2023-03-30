@@ -1,11 +1,13 @@
 import debounce from "lodash.debounce";
 
+const proxy = 'https://localhost:8000'
+
 export async function getTodos() {
-  return await fetch('/todos').then(res => res.json())
+  return await fetch(`${proxy}/todos`).then(res => res.json())
 }
 
 export async function getTodo(id) {
-  return await fetch(`/todos/${id}`)
+  return await fetch(`${proxy}/todo/${id}`)
     .then((response) => {
       if (response.status === 200) {
         return response.json();
@@ -15,7 +17,7 @@ export async function getTodo(id) {
 }
 
 export function createTodo(title, setTodos) {
-  fetch('/todos/create', {
+  fetch(`${proxy}/todo`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -27,7 +29,7 @@ export function createTodo(title, setTodos) {
 }
 
 export function updateTodo(todo, setTodo, setTodos) {
-  fetch(`/todos/update`, {
+  fetch(`${proxy}/todos/update`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -42,7 +44,7 @@ export function updateTodo(todo, setTodo, setTodos) {
 export const dbUpdateTodo = debounce(updateTodo, 800);
 
 export function deleteTodo(id, setTodos, navigate) {
-  fetch(`/todos/delete/${id}`, {
+  fetch(`${proxy}/todos/delete/${id}`, {
     method: 'DELETE'
   })
     .then(res => res.json())
@@ -55,7 +57,7 @@ export function newTask(id, todo, setTodo, input) {
   input.value = '';
   todo.tasks.push(task);
   setTodo({ ...todo });
-  fetch(`/todos/create-task/${id}`, {
+  fetch(`${proxy}/todos/create-task/${id}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

@@ -1,16 +1,15 @@
 import React from 'react';
 import { Outlet, Link } from 'react-router-dom';
+import Searchbox from "../../components/SearchBox";
 
-import Searchbox from './searchbox/Searchbox';
-import './layout.css'
+import './Layout.css'
 
-
-export default function Layout({name}) {
+function Layout({ name }) {
   const clearToken = () => {
     fetch('/signout')
-    .then(() => window.location.reload());
+      .then(() => window.location.reload());
   };
-  
+
   return (
     <>
       <header id="top-bar">
@@ -19,8 +18,9 @@ export default function Layout({name}) {
           <p>{name}</p>
         </div>
       </header>
-      <Searchbox key='searchbox'/>
+      <Searchbox key='searchbox' />
       <Outlet />
     </>
   );
 };
+export default Layout

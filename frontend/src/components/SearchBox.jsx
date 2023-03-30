@@ -1,13 +1,12 @@
-import './searchbox.css'
+import './SearchBox.css'
 import { useCallback, useEffect, useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
-import { getTodos } from '../../../api/api';
+import { getTodos } from '../api/api';
 
 function Searchbox() {
   const [showMenu, setShowMenu] = useState('none');
   const [todos, setTodos] = useState([]);
   const [results, setResults] = useState([]);
-  const navigate = Navigate()
 
   const fetchData = useCallback(async () => setTodos(await getTodos()), []);
 
@@ -21,7 +20,7 @@ function Searchbox() {
   const search = e => {
     setResults(getResults(e.target.value.toLowerCase().trim(), todos).splice(0));
     if (e.key === 'Enter' && results[0]) {
-      navigate(`/edit?${results[0]._id}`);
+      Navigate({ to: `/edit?${results[0]._id}` });
     }
   };
 

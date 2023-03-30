@@ -1,15 +1,14 @@
 import React from "react";
 import { useState } from "react";
 
-import Sidebar from "../../sidebar/sidebar";
-import filters from "../../sidebar/filters";
-import sortBys from "../../sidebar/sortBy";
-import NewTodoButton from "./new-todo/New-todo";
-import Todo from "./todo-template";
+import './Home.css'
+import NewTodoButton from "../../components/NewTodoButton";
+import Todo from "../../components/Todo";
+import Sidebar from "../../components/Sidebar/Sidebar";
+import filters from "../../components/Sidebar/filters";
+import sortBys from "../../components/Sidebar/sortBy";
 
-import './home.css'
-
-export default function Home({todos, setTodos}) {
+function Home({ todos, setTodos }) {
   const [filter, setFilter] = useState(() => filters.All);
   const [sortBy, setSortBy] = useState(() => () => 0);
   const [currModal, setModal] = useState(null);
@@ -19,23 +18,21 @@ export default function Home({todos, setTodos}) {
 
   return (
     <>
-      <label key='modal'>
-        {currModal}
-      </label>
-      <Sidebar 
-        filters={filters} 
+      {currModal}
+      <Sidebar
+        filters={filters}
         filterChange={changeFilter}
         sortBy={sortBys}
         sortByChange={changeSortBy}
       />
-      <NewTodoButton todos={todos} modal={setModal} setTodos={setTodos}/>
+      <NewTodoButton todos={todos} setModal={setModal} setTodos={setTodos} />
       <div key="todos" className='container'>
         <header>
           <h1>My TODOs</h1>
         </header>
         <div id="grid">
           {todos?.filter(filter).sort(sortBy).map((todo) => (
-            <Todo 
+            <Todo
               todo={todo}
               todos={todos}
               setTodos={setTodos}
@@ -48,3 +45,4 @@ export default function Home({todos, setTodos}) {
     </>
   );
 };
+export default Home

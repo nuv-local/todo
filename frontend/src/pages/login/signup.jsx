@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function SignUp({submit, emailError, passConfError, passwordError, swap}) {
+function SignUp({submit, emailError, passConfError, passwordError, swap}) {
   return (
     <div className="login-form">
       <form onSubmit={submit}>
@@ -28,3 +28,4 @@ export default function SignUp({submit, emailError, passConfError, passwordError
     </div>
   )
 }
+export default SignUp

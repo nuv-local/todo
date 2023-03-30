@@ -1,21 +1,21 @@
 import { useState } from 'react';
-import { createTodo } from '../../../api/api.js';
-import Modal from '../../../modal/ModalTemplate.jsx';
-import './new-todo.css'
+import { createTodo } from '../api/api.js';
+import Modal from './ModalTemplate.jsx';
+import './NewTodoButton.css'
 
-function NewTodoButton({ modal, todos, setTodos }) {
+function NewTodoButton({ setModal, todos, setTodos }) {
   const [title, setTitle] = useState('');
 
   const success = async () => {
-    modal(null);;
-    todos.push({ _id: false, title, tasks: [] });
+    setModal(null);
+    todos.push({ _id: 0, title, tasks: [] });
     createTodo(title, setTodos);
   };
 
   const showModal = () => {
-    modal(<Modal
+    setModal(<Modal
       key='new-todo-modal'
-      close={() => modal(null)}
+      close={() => setModal(null)}
       title='New TODO'
       onSuccess={success}
       successMessage='Create TODO'
